@@ -6,10 +6,10 @@ This sketch changes the blink rate of an EL Wire connected
 to the EL Sequencer microcontroller.
 */
 
-//This is where the button digital input goes
+//Button input wire
 int buttonInput = A0;
 
-//These are variables to store button states
+//Variables to store button states
 int buttonPushCounter = 0;
 int buttonState = 0;
 int lastButtonState = 0;
@@ -28,6 +28,7 @@ void loop() {
 //Read pushbutton input pin
 buttonCounter = buttonPush();
 
+//Every 2nd button press, flash EL wire slowly, every 3rd press flash EL wire faster, otherwise lights on
 if(buttonCounter %2 == 0){
       slowFlash();
     }
@@ -41,8 +42,8 @@ if(buttonCounter %2 == 0){
 }
 
 
+// Function to check and log the number of button presses
 int buttonPush(){
-
   buttonState = digitalRead(buttonInput);
 
   //Compare buttonState to previous state
@@ -52,7 +53,7 @@ int buttonPush(){
       //if current state is HIGH, then button went from off to on
       buttonPushCounter++;
       
-    /*  Uncomment these next few lines to help debug
+    /* For debugging 
      *   Serial.println("On!");
      // Serial.println("Number of button pushes: ");
      // Serial.println(buttonPushCounter);
@@ -64,30 +65,30 @@ int buttonPush(){
      }
      delay(50);
   }
+  
   lastButtonState = buttonState;
   return buttonPushCounter;
-
 }
 
+
+//FUnctions to flash EL wire
 void fastFlash(){
-  
     lightsOn();
     delay(750);
     lightsOff();
     delay(500);
 }
 
-
 void slowFlash(){
-  
     lightsOn();
     delay(1500);
     lightsOff();
     delay(1000);
 }
 
-void lightsOn(){
 
+//Functions to turn EL wire on and off
+void lightsOn(){
         digitalWrite(2, HIGH); //turn EL channel on
         digitalWrite(3, HIGH);
         digitalWrite(4, HIGH);       
