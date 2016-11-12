@@ -1,0 +1,79 @@
+//This is where the button digital input goes
+int buttonInput = A0;
+int motorOut = 2;
+
+//These are variables to store button states
+int buttonPushCounter = 0;
+int buttonState = 0;
+int lastButtonState = 0;
+int buttonCounter = 0;
+
+void setup() {
+  Serial.begin(9600);
+
+  //Initialze all pins
+  pinMode(motorOut, OUTPUT); //Channel A on the EL Squencer
+  pinMode(buttonInput, INPUT); //Button input pin
+  
+} 
+
+void loop() {
+buttonCounter = buttonPush();
+ 
+if(buttonCounter %2 == 0){
+      motorOn();
+    }
+    
+   else if(buttonCounter %3 == 0){
+     motorOn();
+     delay(100);
+     motorOff();
+     delay(500);
+   }
+    
+   else {
+     motorOff();
+    } 
+}
+
+
+
+int buttonPush(){
+
+  buttonState = digitalRead(buttonInput);
+
+  //Compare buttonState to previous state
+  if (buttonState != lastButtonState){
+    //If state has changed, increment the counter
+    if (buttonState == HIGH){
+      //if current state is HIGH, then button went from off to on
+      buttonPushCounter++;
+      
+    //  Uncomment these next few lines to help debug
+       Serial.println("On!");
+       Serial.println("Number of button pushes: ");
+       Serial.println(buttonPushCounter);
+     }
+     else{
+       Serial.println("Off");
+     }
+    
+     delay(50);
+  }
+  lastButtonState = buttonState;
+  return buttonPushCounter;
+
+}
+
+
+int motorOn(){
+
+digitalWrite(motorOut, HIGH);
+
+}
+
+int motorOff(){
+
+  digitalWrite(motorOut, LOW);
+  
+}
