@@ -1,5 +1,13 @@
+/*Wearable State Change Switch : Motor Function
+
+Written by jenfoxbot <jenfoxbot@gmail.com>
+(c) under the standard Beerware license. It's free to use in non-commercial uses, 
+if you like the code and run into me, a beer is always appreciated!
+*/
+
 //This is where the button digital input goes
 int buttonInput = A0;
+//This is where the motor (or other component) digital input goes
 int motorOut = 2;
 
 //These are variables to store button states
@@ -20,23 +28,21 @@ void setup() {
 void loop() {
 buttonCounter = buttonPush();
  
-if(buttonCounter %2 == 0){
+if(buttonCounter %2 == 0){ //Button State #1 
       motorOn();
     }
     
-   else if(buttonCounter %3 == 0){
+   else if(buttonCounter %3 == 0){ //Button State #2
      motorOn();
      delay(100);
      motorOff();
      delay(500);
    }
     
-   else {
+   else { //Button State #3 (or otherwise non-divisible by 2 or 3)
      motorOff();
     } 
 }
-
-
 
 int buttonPush(){
 
@@ -62,18 +68,13 @@ int buttonPush(){
   }
   lastButtonState = buttonState;
   return buttonPushCounter;
-
 }
 
 
 int motorOn(){
-
-digitalWrite(motorOut, HIGH);
-
+  digitalWrite(motorOut, HIGH);
 }
 
 int motorOff(){
-
   digitalWrite(motorOut, LOW);
-  
 }
