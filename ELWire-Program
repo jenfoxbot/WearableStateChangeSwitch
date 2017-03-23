@@ -63,7 +63,7 @@ int buttonPush(){
      }*/
     
      }
-     delay(50);
+     delay(500); //Delay to prevent microcontroller from counting a single button push as multiple button pushes
   }
   
   lastButtonState = buttonState;
